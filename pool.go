@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"runtime/debug"
-	"time"
 )
 
 type WorkerPool struct {
@@ -70,8 +69,6 @@ func (p *WorkerPool) run() {
 		case <-p.closeChan:
 			cancelFunc()
 			return
-		default:
-			time.Sleep(LoopSleepDuration)
 		}
 	}
 }
@@ -95,8 +92,6 @@ func (p *WorkerPool) runResponseHandler(ctx context.Context) {
 			}
 		case <-ctx.Done():
 			return
-		default:
-			time.Sleep(LoopSleepDuration)
 		}
 	}
 }

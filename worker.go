@@ -38,8 +38,6 @@ func (w *Worker) Run(ctx context.Context) {
 			w.poolResponseQueue <- &Response{request.Id, resp}
 		case <-ctx.Done():
 			return
-		default:
-			time.Sleep(LoopSleepDuration)
 		}
 	}
 }
