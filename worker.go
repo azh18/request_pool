@@ -2,6 +2,9 @@ package request_pool
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"runtime/debug"
 	"time"
 )
 
@@ -22,6 +25,12 @@ func NewWorker(waitRequestChan chan *Request, responseChan chan *Response, handl
 }
 
 func (w *Worker) Run(ctx context.Context) {
+	defer func() {
+		if err := recover(); err != nil {
+			debug.PrintStack()
+			log.Println(fmt.Sprintf("FlushBugDescriptionInDB Panic, err=%+v", err))
+		}
+	}()
 	for {
 		select {
 		case request := <-w.poolWaitRequest:

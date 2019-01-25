@@ -2,6 +2,9 @@ package request_pool
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"runtime/debug"
 	"time"
 )
 
@@ -51,6 +54,12 @@ func (p *WorkerPool) Close() {
 }
 
 func (p *WorkerPool) run() {
+	defer func() {
+		if err := recover(); err != nil {
+			debug.PrintStack()
+			log.Println(fmt.Sprintf("WorkerPool Panic, err=%+v", err))
+		}
+	}()
 	ctx, cancelFunc := context.WithCancel(p.ctx)
 	for _, w := range p.workers {
 		go w.Run(ctx)
@@ -68,6 +77,12 @@ func (p *WorkerPool) run() {
 }
 
 func (p *WorkerPool) runResponseHandler(ctx context.Context) {
+	defer func() {
+		if err := recover(); err != nil {
+			debug.PrintStack()
+			log.Println(fmt.Sprintf("runResponseHandler Panic, err=%+v", err))
+		}
+	}()
 	var finishCnt int64 = 0
 	for {
 		select {
