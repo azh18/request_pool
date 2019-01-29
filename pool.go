@@ -21,6 +21,10 @@ type WorkerPool struct {
 }
 
 func NewWorkerPool(ctx context.Context, nWorker int, requestHandler func(interface{}) interface{}, reqNum int64, responseHandler func(interface{})) (pool *WorkerPool, finishChan chan struct{}) {
+	if reqNum < 1 || nWorker < 1 {
+		// 数量不合法
+		return nil, nil
+	}
 	pool = &WorkerPool{
 		ctx:             ctx,
 		reqNum:          reqNum,

@@ -13,10 +13,10 @@ I/O latency is hidden and multiple cores are fully utilized to get high throught
 
 ## Install
 
-Ensure that you install golang >= 1.8, and then run the following scripts:
+Ensure that you have installed golang >= 1.8, and then run the following scripts:
 
 ```
-go get github.com/zbw0046/request_pool
+go get -u -v github.com/zbw0046/request_pool
 ```
 
 ## Use

@@ -28,7 +28,7 @@ func (w *Worker) Run(ctx context.Context) {
 	defer func() {
 		if err := recover(); err != nil {
 			debug.PrintStack()
-			log.Println(fmt.Sprintf("FlushBugDescriptionInDB Panic, err=%+v", err))
+			log.Println(fmt.Sprintf("Panic, err=%+v", err))
 		}
 	}()
 	for {
